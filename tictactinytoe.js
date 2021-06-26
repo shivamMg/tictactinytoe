@@ -3,7 +3,7 @@ t = 1
 
 require("net").createServer(c => {
   w = s => c.write(s+"\n")
-  if (x && o)
+  if (z > 1)
     return w("Game in progress")
 
   c.m = {}
@@ -14,8 +14,8 @@ require("net").createServer(c => {
     x.W = w
   } else {
     x = c
-    z = 1
   }
+  z++
 
   G = (e) => {
     l = []
@@ -33,9 +33,8 @@ require("net").createServer(c => {
   ).on("data", d => {
     if (t ^ c == x)
       return c.w("Not your turn")
-    M = {...x.m, ...o.m}
     v = parseInt(d)
-    if (isNaN(v) || v<1 || v>9 || v in M)
+    if (isNaN(v) || v<1 || v>9 || v in {...x.m, ...o.m})
       return c.w("Invalid move")
     c.m[v] = 1
     t = 1 - t
@@ -44,12 +43,13 @@ require("net").createServer(c => {
       c.w("You won")
       c.W("You lost")
     }
-    if (Object.keys(M).length == 9) {
+    if (z > 9) {
       r = "Draw"
-      c.w(r);
-      c.W(r);
+      c.w(r)
+      c.W(r)
     }
-    G(x);
-    o && G(o);
+    G(x)
+    o && G(o)
+    z++
   });
 }).listen(9191);
