@@ -1,73 +1,55 @@
-net = 
-
-x = o = x_in_game = 0;
-t = 1;
-winning_triplets = [
-  [1, 2, 3],
-  [1, 4, 7],
-  [1, 5, 9],
-  [3, 6, 9],
-  [7, 8, 9],
-  [7, 5, 3],
-  [2, 5, 8],
-  [4, 5, 6],
-]
-
+x = o = z = 0
+t = 1
 
 require("net").createServer(c => {
-  c.w = s => c.write(s+"\n")
+  w = s => c.write(s+"\n")
   if (x && o)
-    return c.w("Game in progress")
+    return w("Game in progress")
 
-  c.m = [];
-  if (x_in_game) {
+  c.m = {}
+  c.w = w
+  if (z) {
     o = c
-    o.c = x
-    x.c = o
+    o.W = x.w
+    x.W = w
   } else {
     x = c
-    x_in_game = 1
+    z = 1
   }
 
-  G = (c) => {
-    line = [];
+  G = (e) => {
+    l = []
     for (i = 1; i <= 9; i++) {
-      if (x.m.includes(i))
-        line.push("X");
-      else if (o && o.m.includes(i))
-        line.push("O");
-      else
-        line.push(""+i);
+      l.push(i in x.m ? "X" : o && i in o.m ? "O" : i)
       if (i % 3 == 0) {
-        c.w(line.join("|"));
-        line = [];
+        e.w(l.join("|"))
+        l = []
       }
     }
   }
   G(c)
 
-  c.on("end", () => c.c.write("Player left")
+  c.on("end", () => c.W("Player left")
   ).on("data", d => {
     if (t ^ c == x)
-      return c.w("Not your turn");
-    v = parseInt(d);
-    if (isNaN(v) || v<1 || v>9 || x.m.concat(o.m).includes(v))
-      return c.w("Invalid move");
-    c.m.push(v);
-    t = 1 - t;
-    won = winning_triplets.some(triplet =>
-      triplet.every(j => c.m.includes(j))
-    );
-    if (won) {
-      c.w("You won");
-      c.c.w("You lost");
+      return c.w("Not your turn")
+    M = {...x.m, ...o.m}
+    v = parseInt(d)
+    if (isNaN(v) || v<1 || v>9 || v in M)
+      return c.w("Invalid move")
+    c.m[v] = 1
+    t = 1 - t
+    f = i => i < 24 ? '123147159369789753258456'.slice(i, i+3).split('').every(j => j in c.m) || f(i+3) : 0
+    if (f(0)) {
+      c.w("You won")
+      c.W("You lost")
     }
-    if (x.m.length + o.m.length == 9) {
-      m = "Draw"
-      x.w(m);
-      o.w(m);
+    if (Object.keys(M).length == 9) {
+      r = "Draw"
+      c.w(r);
+      c.W(r);
     }
     G(x);
-    G(o);
+    o && G(o);
   });
 }).listen(9191);
