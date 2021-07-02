@@ -1,5 +1,8 @@
-x = o = z = 0
-t = 1
+F = _ => {
+  x = o = z = 0
+  t = 1
+}
+F()
 
 require("net").createServer(c => {
   w = s => c.write(s+"\n")
@@ -29,27 +32,29 @@ require("net").createServer(c => {
   }
   G(c)
 
-  c.on("end", () => c.W("Player left")
+  c.on("end", _ => c.W("Player left")
   ).on("data", d => {
     if (t ^ c == x)
-      return c.w("Not your turn")
+      return
     v = parseInt(d)
     if (isNaN(v) || v<1 || v>9 || v in {...x.m, ...o.m})
       return c.w("Invalid move")
     c.m[v] = 1
     t = 1 - t
-    f = i => i < 24 ? '123147159369789753258456'.slice(i, i+3).split('').every(j => j in c.m) || f(i+3) : 0
+    f = i => i < 24 ? "123147159369789753258456".slice(i, i+3).split("").every(j => j in c.m) || f(i+3) : 0
     if (f(0)) {
       c.w("You won")
-      c.W("You lost")
+      throw c.W("You lost")
     }
     if (z > 9) {
       r = "Draw"
       c.w(r)
-      c.W(r)
+      throw c.W(r)
     }
     G(x)
     o && G(o)
     z++
-  });
-}).listen(9191);
+  })
+}).listen(9191)
+
+process.on('uncaughtException', F)

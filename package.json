@@ -1,0 +1,24 @@
+{
+  "name": "tictactinytoe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tictactinytoe.js",
+  "scripts": {
+    "uglify": "uglifyjs tictactinytoe.js",
+    "bytes": "uglifyjs tictactinytoe.js | wc --bytes",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivamMg/tictactinytoe.git"
+  },
+  "author": "Shivam Mamgain",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shivamMg/tictactinytoe/issues"
+  },
+  "homepage": "https://github.com/shivamMg/tictactinytoe#readme",
+  "dependencies": {
+    "uglify-js": "^3.13.9"
+  }
+}
