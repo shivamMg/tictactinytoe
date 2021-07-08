@@ -4,8 +4,8 @@
   "description": "",
   "main": "tictactinytoe.js",
   "scripts": {
-    "uglify": "uglifyjs tictactinytoe.js | sed 's/;$//'",
-    "bytes": "uglifyjs tictactinytoe.js | sed 's/;$//' | wc --bytes",
+    "uglify": "uglifyjs tictactinytoe.js | sed 's/;$//' | tr -d '\n'",
+    "bytes": "uglifyjs tictactinytoe.js | sed 's/;$//' | tr -d '\n' | wc --bytes",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

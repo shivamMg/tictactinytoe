@@ -12,14 +12,7 @@ require("net").createServer(c => {
 
   c.m = {}
   c.w = w
-  if (z) {
-    o = c
-    o.W = x.w
-    x.W = w
-  } else {
-    x = c
-  }
-  z++
+  z++ ? (o = c, o.W = x.w, x.W = w) : x = c
 
   G = (e) => {
     for (l = "", i = 1; i <= 9; i++)
