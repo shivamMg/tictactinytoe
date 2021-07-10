@@ -1,14 +1,13 @@
-F = _ => {
-  x = o = z = 0
-  t = 1
-}
-F()
+C = []
+T = 1
 
-require("net").createServer(c => {
+p = c => {
   h = "\n"
   w = s => c.write(s+h)
   if (o)
     return w("Game in progress")
+  
+  if (!C.includes(c)) C.push(c)
 
   c.m = {}
   c.w = w
@@ -21,22 +20,38 @@ require("net").createServer(c => {
   }
   G(c)
 
-  c.on("end", _ => c.W("Player left")
-  ).on("data", d => {
-    if (t ^ c == x)
+  c.on("end", _ => {
+    c.W("Player left")
+    C = C.filter(l => c !== l)
+  }).on("data", d => {
+    if (t ^ c == x && !r)
       return
     v = parseInt(d)
     if (isNaN(v) || v<1 || v>9 || v in {...x.m, ...o.m})
       return c.w("Invalid move")
+    if (r) {
+      r = 0
+      if (C.indexOf(c) === T) t = 1 - t
+    }
     t = c.m[v] = 1 - t
     G(x)
     o && G(o)
     f = i => i < 24 ? "123147159369789753258456".slice(i, i+3).split("").every(j => j in c.m) || f(i+3) : 0
     if (f(0))
-      throw c.w("You won"), c.W("You lost")
+      throw c.w("You won"+h), c.W("You lost"+h)
     if (z++ > 9)
-      throw r = "Draw", c.w(r), c.W(r)
+      throw r = "Draw"+h, c.w(r), c.W(r)
   })
-}).listen(9191)
+}
+
+F = _ => {
+  x = o = z = 0
+  t = T
+  r = 1
+  C.map(p)
+}
+F()
+
+require("net").createServer(p).listen(9191)
 
 process.on('uncaughtException', F)
