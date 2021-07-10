@@ -6,11 +6,14 @@ p = c => {
   if (o)
     return w("Game in progress")
   
-  if (!C.includes(c)) C.push(c)
+  if (!C.includes(c)) {
+    c.s = 0
+    C.push(c)
+  }
 
   c.m = {}
   c.w = w
-  z++ ? (o = c, o.W = x.w, x.W = w) : x = c
+  z++ ? (o = c, o.o = x, x.o = o) : x = c
 
   G = (e) => {
     for (l = "", i = 1; i <= 9; i++)
@@ -20,8 +23,8 @@ p = c => {
   G(c)
 
   c.on("end", _ => {
-    c.W("Player left")
-    C = C.filter(l => c !== l)
+    c.o.w("Player left")
+    C = C.filter(l => c !== l).map(l => (l.s = 0, l.S = 0))
   }).on("data", d => {
     if (t ^ c == x)
       return
@@ -33,9 +36,9 @@ p = c => {
     o && G(o)
     f = i => i < 24 ? "123147159369789753258456".slice(i, i+3).split("").every(j => j in c.m) || f(i+3) : 0
     if (f(0))
-      throw c.w("You won"+h), c.W("You lost"+h)
+      throw ++c.s, c.w(`You won (${c.s}:${c.o.s})`+h), c.o.w(`You lost (${c.o.s}:${c.s})`+h)
     if (z++ > 9)
-      throw r = "Draw", c.w(r), c.W(r)
+      throw r = "Draw", c.w(r), c.o.w(r)
   })
 }
 
