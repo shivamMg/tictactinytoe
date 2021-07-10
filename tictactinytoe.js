@@ -1,4 +1,5 @@
 C = []
+T = 1
 
 p = c => {
   h = "\n"
@@ -23,11 +24,15 @@ p = c => {
     c.W("Player left")
     C = C.filter(l => c !== l)
   }).on("data", d => {
-    if (t ^ c == x)
+    if (t ^ c == x && !r)
       return
     v = parseInt(d)
     if (isNaN(v) || v<1 || v>9 || v in {...x.m, ...o.m})
       return c.w("Invalid move")
+    if (r) {
+      r = 0
+      if (C.indexOf(c) === T) t = 1 - t
+    }
     t = c.m[v] = 1 - t
     G(x)
     o && G(o)
@@ -41,7 +46,8 @@ p = c => {
 
 F = _ => {
   x = o = z = 0
-  t = 1
+  t = T
+  r = 1
   C.map(p)
 }
 F()
